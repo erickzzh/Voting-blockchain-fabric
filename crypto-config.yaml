@@ -1,0 +1,42 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: voting.org
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs:
+  - Name: station1
+    Domain: station1.voting.org
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users: 
+      Count: 1
+  - Name: station2
+    Domain: station2.voting.org
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users: 
+      Count: 1
+  - Name: station3
+    Domain: station3.voting.org
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users:
+      Count: 1
+  - Name: station4
+    Domain: station4.voting.org
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users:
+      Count: 1
+  - Name: GovermentAgency
+    Domain: GovermentAgency.voting.org
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users:
+      Count: 1

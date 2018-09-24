@@ -1,0 +1,145 @@
+# Organizations
+
+Organizations:
+
+  - &OrdererOrg
+      Name: Orderer
+      ID: OrdererMSP
+      MSPDir: crypto-config/ordererOrganizations/voting.org/msp
+
+  - &station1
+      Name: station1MSP
+      ID: station1MSP
+      MSPDir: crypto-config/peerOrganizations/station1.voting.org/msp
+      AnchorPeers:
+        - Host: peer0.station1.voting.org
+          Port: 7051
+
+  - &station2
+      Name: station2MSP
+      ID: station2MSP
+      MSPDir: crypto-config/peerOrganizations/station2.voting.org/msp
+      AnchorPeers:
+        - Host: peer0.station2.voting.org
+          Port: 7051
+
+  - &station3
+      Name: station3MSP
+      ID: station3MSP
+      MSPDir: crypto-config/peerOrganizations/station3.voting.org/msp
+      AnchorPeers:
+        - Host: peer0.station3.voting.org
+          Port: 7051
+
+  - &station4
+      Name: station4MSP
+      ID: station4MSP
+      MSPDir: crypto-config/peerOrganizations/station4.voting.org/msp
+      AnchorPeers:
+        - Host: peer0.station4.voting.org
+          Port: 7051
+
+  - &GovermentAgency
+      Name: GovermentAgencyMSP
+      ID: GovermentAgencyMSP
+      MSPDir: crypto-config/peerOrganizations/GovermentAgency.voting.org/msp
+      AnchorPeers:
+        - Host: peer0.GovermentAgency.voting.org
+          Port: 7051
+
+################################################################################
+#
+#   SECTION: Orderer
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for orderer related parameters
+#
+################################################################################
+
+Orderer: &OrdererDefaults
+
+    # Orderer Type: The orderer implementation to start
+    # Available types are "solo" and "kafka"
+    OrdererType: solo
+
+    Addresses:
+        - orderer.voting.org:7050
+
+    # Batch Timeout: The amount of time to wait before creating a batch
+    BatchTimeout: 2s
+
+    # Batch Size: Controls the number of messages batched into a block
+    BatchSize:
+
+        # Max Message Count: The maximum number of messages to permit in a batch
+        MaxMessageCount: 10
+
+        # Absolute Max Bytes: The absolute maximum number of bytes allowed for
+        # the serialized messages in a batch.
+        AbsoluteMaxBytes: 99 MB
+
+        # Preferred Max Bytes: The preferred maximum number of bytes allowed for
+        # the serialized messages in a batch. A message larger than the preferred
+        # max bytes will result in a batch larger than preferred max bytes.
+        PreferredMaxBytes: 512 KB
+
+    Kafka:
+        # Brokers: A list of Kafka brokers to which the orderer connects
+        # NOTE: Use IP:port notation
+        Brokers:
+            - 127.0.0.1:9092
+
+    # Organizations is the list of orgs which are defined as participants on
+    # the orderer side of the network
+    Organizations:
+
+
+
+################################################################################
+#
+#   SECTION: Application
+#
+#   - This section defines the values to encode into a config transaction or
+#   genesis block for application related parameters
+#
+################################################################################
+
+Application: &ApplicationDefaults
+
+  Organizations:
+
+
+################################################################################
+#
+#   Profile
+#
+#   - Different configuration profiles may be encoded here to be specified
+#   as parameters to the configtxgen tool
+#
+################################################################################
+Profiles:
+  
+    OrdererGenesis:
+      Orderer:
+        <<: *OrdererDefaults
+        Organizations:
+          - *OrdererOrg
+      Consortiums:
+        VotingConsortium:
+          Organizations:
+            - *station1
+            - *station2
+            - *station3
+            - *station4
+            - *GovermentAgency
+    votingchannel:
+      Consortium: VotingConsortium
+      Application:
+        <<: *ApplicationDefaults
+        Organizations:
+            - *station1
+            - *station2
+            - *station3
+            - *station4
+            - *GovermentAgency
+
