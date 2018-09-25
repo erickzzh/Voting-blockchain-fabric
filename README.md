@@ -97,7 +97,7 @@ Warnings can be ignored at this stage as we do not have any policy and chaincode
 
 
 ```bash
-../bin/configtxgen -profile VotingChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID VotingChannel
+../bin/configtxgen -profile votingchannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID votingchannel
 ```
 
 ### Anchor Peers Config
