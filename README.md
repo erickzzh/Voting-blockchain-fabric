@@ -121,6 +121,11 @@ We have to run the command for each anchor peer.
 ```bash
 docker-compose -f docker-compose-cli.yaml up -d
 ```
+Run the above script if you have already created a channel and wants to start over 
+
+```bash
+docker-compose -f docker-compose-cli.yaml up -d
+```
 
 Your should receive something like:
 
