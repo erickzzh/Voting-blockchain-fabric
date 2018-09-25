@@ -119,7 +119,7 @@ We have to run the command for each anchor peer.
 ### Docker Compose
 
 ```bash
-docker-compose -f docker-compose-cli.yaml up -d
+docker-compose -f docker-compose-cli.yaml down --volumes
 ```
 Run the above script if you have already created a channel and wants to start over 
 
