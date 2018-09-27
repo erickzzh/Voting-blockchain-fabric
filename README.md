@@ -69,7 +69,18 @@ You may want to add that to your PATH environment variable so that these can be 
 export PATH=<path to download location>/bin:$PATH
 ```
 
-## Network Set up
+## Express Setup
+```bash
+./setup.sh
+./start.sh
+```
+### Environemnt Delete and clean up
+```bash
+./delete.sh
+```
+
+## Manual Setup
+
 Everything is now in place for us to generate our certificates and keys. Make sure you are inside the project folder and run:
 
 ```bash
