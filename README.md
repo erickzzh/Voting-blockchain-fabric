@@ -97,7 +97,7 @@ Warnings can be ignored at this stage as we do not have any policy and chaincode
 
 
 ```bash
-../bin/configtxgen -profile VotingChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID VotingChannel
+../bin/configtxgen -profile votingchannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID votingchannel
 ```
 
 ### Anchor Peers Config
@@ -117,6 +117,11 @@ We have to run the command for each anchor peer.
 ```
 
 ### Docker Compose
+
+```bash
+docker-compose -f docker-compose-cli.yaml down --volumes
+```
+Run the above script if you have already created a channel and wants to start over 
 
 ```bash
 docker-compose -f docker-compose-cli.yaml up -d
