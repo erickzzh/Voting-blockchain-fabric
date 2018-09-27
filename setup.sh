@@ -3,7 +3,8 @@ CRYPTO_DIR="./crypto-config"
 
 echo 'Removing contents of directory "channel-artifacts"'
 # remove all contents of $DIR
-rm -rf $ARTIFACT_DIR/*
+rm -rf $ARTIFACT_DIR
+mkdir channel-artifacts
 
 echo 'Removing contents of directory "crypto-config"'
 rm -rf $CRYPTO_DIR
