@@ -1,20 +1,13 @@
 ARTIFACT_DIR="./channel-artifacts"
 CRYPTO_DIR="./crypto-config"
 
-if [ ! -d "$ARTIFACT_DIR" ]; then
-    echo 'Making directory "channel-artifacts"'
-    mkdir channel-artifacts
-else
-    echo 'Removing contents of directory "channel-artifacts"'
-    # remove all contents of $DIR
-    rm -rf $ARTIFACT_DIR/*
-fi
+echo 'Removing contents of directory "channel-artifacts"'
+# remove all contents of $DIR
+rm -rf $ARTIFACT_DIR/*
 
+echo 'Removing contents of directory "crypto-config"'
+rm -rf $CRYPTO_DIR
 
-if [ -d "$CRYPTO_DIR" ]; then
-    echo 'Removing contents of directory "crypto-config"'
-    rm -rf $CRYPTO_DIR
-fi
 echo "Creating credentials for all participants"
 ../bin/cryptogen generate --config crypto-config.yaml --output=crypto-config
 echo "Creating the Genesis Block"

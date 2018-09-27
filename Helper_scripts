@@ -1,0 +1,38 @@
+# this joins all of the peers to the channel
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station1.voting.org/users/Admin@station1.voting.org/msp CORE_PEER_ADDRESS=peer1.station1.voting.org:7051 CORE_PEER_LOCALMSPID="station1MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station1.voting.org/peers/peer1.station1.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station2.voting.org/users/Admin@station2.voting.org/msp CORE_PEER_ADDRESS=peer0.station2.voting.org:7051 CORE_PEER_LOCALMSPID="station2MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station2.voting.org/peers/peer0.station2.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station2.voting.org/users/Admin@station2.voting.org/msp CORE_PEER_ADDRESS=peer1.station2.voting.org:7051 CORE_PEER_LOCALMSPID="station2MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station2.voting.org/peers/peer1.station2.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station3.voting.org/users/Admin@station3.voting.org/msp CORE_PEER_ADDRESS=peer0.station3.voting.org:7051 CORE_PEER_LOCALMSPID="station3MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station3.voting.org/peers/peer0.station3.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station3.voting.org/users/Admin@station3.voting.org/msp CORE_PEER_ADDRESS=peer1.station3.voting.org:7051 CORE_PEER_LOCALMSPID="station3MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station3.voting.org/peers/peer1.station3.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station4.voting.org/users/Admin@station4.voting.org/msp CORE_PEER_ADDRESS=peer0.station4.voting.org:7051 CORE_PEER_LOCALMSPID="station4MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station4.voting.org/peers/peer0.station4.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station4.voting.org/users/Admin@station4.voting.org/msp CORE_PEER_ADDRESS=peer1.station4.voting.org:7051 CORE_PEER_LOCALMSPID="station4MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station4.voting.org/peers/peer1.station4.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/GovermentAgency.voting.org/users/Admin@GovermentAgency.voting.org/msp CORE_PEER_ADDRESS=peer0.GovermentAgency.voting.org:7051 CORE_PEER_LOCALMSPID="GovermentAgencyMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/GovermentAgency.voting.org/peers/peer0.GovermentAgency.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/GovermentAgency.voting.org/users/Admin@GovermentAgency.voting.org/msp CORE_PEER_ADDRESS=peer1.GovermentAgency.voting.org:7051 CORE_PEER_LOCALMSPID="GovermentAgencyMSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/GovermentAgency.voting.org/peers/peer1.GovermentAgency.voting.org/tls/ca.crt peer channel join -b votingchannel.block
+
+
+
+#this updates all of the anchor peers for each org
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station1.voting.org/users/Admin@station1.voting.org/msp
+CORE_PEER_ADDRESS=peer0.station1.voting.org:7051
+CORE_PEER_LOCALMSPID="station1MSP"
+CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station1.voting.org/peers/peer0.station1.voting.org/tls/ca.crt
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station2.voting.org/users/Admin@station2.voting.org/msp
+CORE_PEER_ADDRESS=peer0.station2.voting.org:7051
+CORE_PEER_LOCALMSPID="station2MSP"
+CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station2.voting.org/peers/peer0.station2.voting.org/tls/ca.crt
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station3.voting.org/users/Admin@station3.voting.org/msp
+CORE_PEER_ADDRESS=peer0.station3.voting.org:7051
+CORE_PEER_LOCALMSPID="station3MSP"
+CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station3.voting.org/peers/peer0.station3.voting.org/tls/ca.crt
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station4.voting.org/users/Admin@station4.voting.org/msp
+CORE_PEER_ADDRESS=peer0.station4.voting.org:7051
+CORE_PEER_LOCALMSPID="station4MSP"
+CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/station4.voting.org/peers/peer0.station4.voting.org/tls/ca.crt
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/GovermentAgency.voting.org/users/Admin@GovermentAgency.voting.org/msp
+CORE_PEER_ADDRESS=peer0.GovermentAgency.voting.org:7051
+CORE_PEER_LOCALMSPID="GovermentAgencyMSP"
+CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/GovermentAgency.voting.org/peers/peer0.GovermentAgency.voting.org/tls/ca.crt
