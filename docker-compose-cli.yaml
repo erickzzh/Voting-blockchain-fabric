@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 
 volumes:
   orderer.voting.org:
@@ -17,10 +17,9 @@ networks:
   Vnet: # voting network
 
 services:
-
   orderer.voting.org:
     extends:
-      file:   base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: orderer.voting.org
     container_name: orderer.voting.org
     networks:
@@ -29,7 +28,7 @@ services:
   peer0.station1.voting.org:
     container_name: peer0.station1.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer0.station1.voting.org
     networks:
       - Vnet
@@ -37,7 +36,7 @@ services:
   peer1.station1.voting.org:
     container_name: peer1.station1.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer1.station1.voting.org
     networks:
       - Vnet
@@ -45,7 +44,7 @@ services:
   peer0.station2.voting.org:
     container_name: peer0.station2.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer0.station2.voting.org
     networks:
       - Vnet
@@ -53,7 +52,7 @@ services:
   peer1.station2.voting.org:
     container_name: peer1.station2.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer1.station2.voting.org
     networks:
       - Vnet
@@ -61,7 +60,7 @@ services:
   peer0.station3.voting.org:
     container_name: peer0.station3.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer0.station3.voting.org
     networks:
       - Vnet
@@ -69,7 +68,7 @@ services:
   peer1.station3.voting.org:
     container_name: peer1.station3.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer1.station3.voting.org
     networks:
       - Vnet
@@ -77,7 +76,7 @@ services:
   peer0.station4.voting.org:
     container_name: peer0.station4.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer0.station4.voting.org
     networks:
       - Vnet
@@ -85,7 +84,7 @@ services:
   peer1.station4.voting.org:
     container_name: peer1.station4.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer1.station4.voting.org
     networks:
       - Vnet
@@ -93,7 +92,7 @@ services:
   peer0.GovermentAgency.voting.org:
     container_name: peer0.GovermentAgency.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer0.GovermentAgency.voting.org
     networks:
       - Vnet
@@ -101,22 +100,8 @@ services:
   peer1.GovermentAgency.voting.org:
     container_name: peer1.GovermentAgency.voting.org
     extends:
-      file:  base/docker-compose-base.yaml
+      file: base/docker-compose-base.yaml
       service: peer1.GovermentAgency.voting.org
-    networks:
-      - Vnet
-
-
-  couchdb:
-    container_name: couchdb
-    image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
-    environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
-    ports:
-      - 5984:5984
     networks:
       - Vnet
 
@@ -141,13 +126,12 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
-        - /var/run/:/host/var/run/
-        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
-        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+      - /var/run/:/host/var/run/
+      - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
-      - couchdb
       - orderer.voting.org
       - peer0.station1.voting.org
       - peer1.station1.voting.org

@@ -1,0 +1,313 @@
+version: "2"
+
+networks:
+  Vnet:
+
+services:
+  couchdb01:
+    container_name: couchdb01
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "5984:5984"
+    networks:
+      - Vnet
+
+  peer0.station1.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb01:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer0.station1.voting.org
+      - CORE_PEER_ADDRESS=peer0.station1.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.station1.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.station1.voting.org:7051
+      - CORE_PEER_LOCALMSPID=station1MSP
+    depends_on:
+      - couchdb01
+
+  couchdb11:
+    container_name: couchdb11
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=testtest
+      - COUCHDB_PASSWORD=testtest
+    ports:
+      - "6984:5984"
+    networks:
+      - Vnet
+
+  peer1.station1.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb11:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=testtest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=testtest
+      - CORE_PEER_ID=peer1.station1.voting.org
+      - CORE_PEER_ADDRESS=peer1.station1.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.station1.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.station1.voting.org:7051
+      - CORE_PEER_LOCALMSPID=station1MSP
+    depends_on:
+      - couchdb11
+
+  couchdb02:
+    container_name: couchdb02
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "7984:5984"
+    networks:
+      - Vnet
+
+  peer0.station2.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb02:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer0.station2.voting.org
+      - CORE_PEER_ADDRESS=peer0.station2.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.station2.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.station2.voting.org:7051
+      - CORE_PEER_LOCALMSPID=station2MSP
+    depends_on:
+      - couchdb02
+
+  couchdb12:
+    container_name: couchdb12
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "8984:5984"
+    networks:
+      - Vnet
+
+  peer1.station2.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb12:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer1.station2.voting.org
+      - CORE_PEER_ADDRESS=peer1.station2.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.station2.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.station2.voting.org:7051
+      - CORE_PEER_LOCALMSPID=station2MSP
+    depends_on:
+      - couchdb12
+
+  couchdb03:
+    container_name: couchdb03
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "9984:5984"
+    networks:
+      - Vnet
+
+  peer0.station3.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb03:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer0.station3.voting.org
+      - CORE_PEER_ADDRESS=peer0.station3.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.station3.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.station3.voting.org:7051
+      - CORE_PEER_LOCALMSPID=station3MSP
+    depends_on:
+      - couchdb03
+
+  couchdb13:
+    container_name: couchdb13
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "10984:5984"
+    networks:
+      - Vnet
+
+  peer1.station3.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb13:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer1.station3.voting.org
+      - CORE_PEER_ADDRESS=peer1.station3.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.station3.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.station3.voting.org:7051
+      - CORE_PEER_LOCALMSPID=station3MSP
+    depends_on:
+      - couchdb13
+
+  couchdb04:
+    container_name: couchdb04
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "11984:5984"
+    networks:
+      - Vnet
+
+  peer0.station4.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb04:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer0.station4.voting.org
+      - CORE_PEER_ADDRESS=peer0.station4.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.station4.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.station4.voting.org:7051
+      - CORE_PEER_LOCALMSPID=station4MSP
+    depends_on:
+      - couchdb04
+
+  couchdb14:
+    container_name: couchdb14
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "12984:5984"
+    networks:
+      - Vnet
+
+  peer1.station4.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb14:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer1.station4.voting.org
+      - CORE_PEER_ADDRESS=peer1.station4.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.station4.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.station4.voting.org:7051
+      - CORE_PEER_LOCALMSPID=station4MSP
+    depends_on:
+      - couchdb14
+
+  couchdb05:
+    container_name: couchdb05
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "13984:5984"
+    networks:
+      - Vnet
+
+  peer0.GovermentAgency.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb05:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer0.GovermentAgency.voting.org
+      - CORE_PEER_ADDRESS=peer0.GovermentAgency.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.GovermentAgency.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.GovermentAgency.voting.org:7051
+      - CORE_PEER_LOCALMSPID=GovermentAgencyMSP
+    depends_on:
+      - couchdb05
+
+  couchdb15:
+    container_name: couchdb15
+    image: hyperledger/fabric-couchdb:latest
+    dns_search: .
+    environment:
+      # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+      # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+      - COUCHDB_USER=test
+      - COUCHDB_PASSWORD=test
+    ports:
+      - "14984:5984"
+    networks:
+      - Vnet
+
+  peer1.GovermentAgency.voting.org:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb15:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=test
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=test
+      - CORE_PEER_ID=peer1.GovermentAgency.voting.org
+      - CORE_PEER_ADDRESS=peer1.GovermentAgency.voting.org:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.GovermentAgency.voting.org:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.GovermentAgency.voting.org:7051
+      - CORE_PEER_LOCALMSPID=GovermentAgencyMSP
+    depends_on:
+      - couchdb15
