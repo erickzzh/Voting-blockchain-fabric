@@ -64,7 +64,9 @@ func (t *ballot) initBallot(stub shim.ChaincodeStubInterface, args []string) pee
 	voteInit := ""
 	//fmt.Printf("%x", h.Sum(nil)) prints the sha256 string
 
-	//TODO: should then check if the ballotID is already in the system
+	//TODO: should then check if the ballotID is already in the system. We won't check this case as for now
+	// 1. write this data to the ledger
+	// 2. implement an index and then query all the ballotID to see if it exist
 	//FIXME: need to have a proper return function
 
 }
