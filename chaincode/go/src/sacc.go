@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -25,6 +26,7 @@ func (t *ballot) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 	function, args := stub.GetFunctionAndParameters()
 	fmt.Println("invoke is running " + function)
 
+	// Handle different functions
 	switch function {
 	case "initBallot":
 		//create a new ballot
@@ -59,10 +61,23 @@ func (t *ballot) initBallot(stub shim.ChaincodeStubInterface, args []string) pee
 	personFirstName := args[0]
 	personLastName := args[1]
 	hash := sha256.New()
-	hash.Write([]byte(personFirstName + personLastName))
+	hash.Write([]byte(personFirstName + personLastName)) // ballotID is created based on the person's name
 	ballotID := hex.EncodeToString(hash.Sum(nil))
-	voteInit := ""
+	voteInit := "VOTE INIT"
 	//fmt.Printf("%x", h.Sum(nil)) prints the sha256 string
+
+	// ==== Create ballot object and marshal to JSON ====
+	ballot := ballot{personFirstName, personLastName, ballotID, voteInit}
+	ballotJSONByte, err := json.Marshal(ballot)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	err = stub.PutState(ballotID, ballotJSONByte)
+
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	return shim.Success(nil)
 
 	//TODO: should then check if the ballotID is already in the system. We won't check this case as for now
 	// 1. write this data to the ledger
