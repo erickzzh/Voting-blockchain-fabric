@@ -77,7 +77,7 @@ func (t *ballot) initBallot(stub shim.ChaincodeStubInterface, args []string) pee
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-	return shim.Success(nil)
+	return shim.Success([]byte(ballotID))
 
 	//TODO: should then check if the ballotID is already in the system. We won't check this case as for now
 	// 1. write this data to the ledger
