@@ -28,10 +28,13 @@ func (t *ballot) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 
 	// Handle different functions
 	switch function {
+	//TODO: Need to create more cases
 	case "initBallot":
 		//create a new ballot
 		return t.initBallot(stub, args)
-	//TODO: Need to create more cases
+	case "vote":
+		//voting action
+		return t.vote(stub, args)
 
 	default:
 		//error
@@ -65,15 +68,14 @@ func (t *ballot) initBallot(stub shim.ChaincodeStubInterface, args []string) pee
 	ballotID := hex.EncodeToString(hash.Sum(nil))
 	voteInit := "VOTE INIT"
 	//fmt.Printf("%x", h.Sum(nil)) prints the sha256 string
-
 	// ==== Create ballot object and marshal to JSON ====
-	ballot := ballot{personFirstName, personLastName, ballotID, voteInit}
-	ballotJSONByte, err := json.Marshal(ballot)
+	Ballot := ballot{personFirstName, personLastName, ballotID, voteInit}
+	ballotJSONByte, err := json.Marshal(Ballot)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-	err = stub.PutState(ballotID, ballotJSONByte)
-
+	//ballotID becomes the key for this tuple
+	err = stub.PutState(string(ballotID), ballotJSONByte)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -83,6 +85,47 @@ func (t *ballot) initBallot(stub shim.ChaincodeStubInterface, args []string) pee
 	// 1. write this data to the ledger
 	// 2. implement an index and then query all the ballotID to see if it exist
 	//FIXME: need to have a proper return function
+
+}
+
+func (t *ballot) vote(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+	//  0- ballID, 1-Decision
+	// "This is going to be passed from the client side",  "YES/NO"
+
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+	ballotID := args[0]
+	decision := args[1]
+
+	// ==== Create a voting and marshal to JSON ====
+	//first we need to get the voter personal info based on the ballotID
+	ballotAsByte, err := stub.GetState(ballotID)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	Ballot := ballot{}
+	//umarshal the data to a new ballot struct
+	json.Unmarshal(ballotAsByte, &Ballot)
+	//
+	fmt.Println(Ballot)
+	Ballot.decision = decision
+	fmt.Println(Ballot.lastName)
+	//create a new id to be place within the db
+	hash := sha256.New()
+	hash.Write([]byte(Ballot.firstName + Ballot.lastName + decision)) // ballotID is created based on the person's name
+	newBallotID := hex.EncodeToString(hash.Sum(nil))
+
+	ballotAsByte, err = json.Marshal(Ballot)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	err = stub.PutState(newBallotID, ballotAsByte)
+
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	return shim.Success([]byte("all is good"))
 
 }
 
