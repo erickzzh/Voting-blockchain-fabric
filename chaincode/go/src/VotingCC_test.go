@@ -58,6 +58,5 @@ func Test_Invoke_voting(t *testing.T) {
 		t.Log("initBallot failed to create a ballot")
 		t.FailNow()
 	}
-	t.Log(res.Payload)
 
 }

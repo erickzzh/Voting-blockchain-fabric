@@ -10,11 +10,12 @@ import (
 	"github.com/hyperledger/fabric/protos/peer"
 )
 
+//VERY IMPORTANT: The first letter needs to be captilized
 type ballot struct {
-	firstName string
-	lastName  string
-	ballotID  string
-	decision  string
+	FirstName string
+	LastName  string
+	BallotID  string
+	Decision  string
 }
 
 // Init is called during chaincode instantiation to initialize any data.
@@ -67,13 +68,16 @@ func (t *ballot) initBallot(stub shim.ChaincodeStubInterface, args []string) pee
 	hash.Write([]byte(personFirstName + personLastName)) // ballotID is created based on the person's name
 	ballotID := hex.EncodeToString(hash.Sum(nil))
 	voteInit := "VOTE INIT"
+
 	//fmt.Printf("%x", h.Sum(nil)) prints the sha256 string
+
 	// ==== Create ballot object and marshal to JSON ====
 	Ballot := ballot{personFirstName, personLastName, ballotID, voteInit}
 	ballotJSONByte, err := json.Marshal(Ballot)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
+
 	//ballotID becomes the key for this tuple
 	err = stub.PutState(string(ballotID), ballotJSONByte)
 	if err != nil {
@@ -89,6 +93,7 @@ func (t *ballot) initBallot(stub shim.ChaincodeStubInterface, args []string) pee
 }
 
 func (t *ballot) vote(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
 	//  0- ballID, 1-Decision
 	// "This is going to be passed from the client side",  "YES/NO"
 
@@ -104,18 +109,22 @@ func (t *ballot) vote(stub shim.ChaincodeStubInterface, args []string) peer.Resp
 	if err != nil {
 		return shim.Error(err.Error())
 	}
+
 	Ballot := ballot{}
+
 	//umarshal the data to a new ballot struct
 	json.Unmarshal(ballotAsByte, &Ballot)
-	//
-	fmt.Println(Ballot)
-	Ballot.decision = decision
-	fmt.Println(Ballot.lastName)
+	if Ballot.BallotID == "" {
+		return shim.Error(err.Error())
+	}
+	Ballot.Decision = decision
+
 	//create a new id to be place within the db
 	hash := sha256.New()
-	hash.Write([]byte(Ballot.firstName + Ballot.lastName + decision)) // ballotID is created based on the person's name
+	hash.Write([]byte(Ballot.FirstName + Ballot.LastName + decision)) // ballotID is created based on the person's name
 	newBallotID := hex.EncodeToString(hash.Sum(nil))
 
+	//marshal ballot into byte
 	ballotAsByte, err = json.Marshal(Ballot)
 	if err != nil {
 		return shim.Error(err.Error())
@@ -125,7 +134,7 @@ func (t *ballot) vote(stub shim.ChaincodeStubInterface, args []string) peer.Resp
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-	return shim.Success([]byte("all is good"))
+	return shim.Success(ballotAsByte)
 
 }
 
