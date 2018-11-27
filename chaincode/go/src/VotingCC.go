@@ -20,7 +20,45 @@ type ballot struct {
 
 // Init is called during chaincode instantiation to initialize any data.
 func (t *ballot) Init(stub shim.ChaincodeStubInterface) peer.Response {
-	return shim.Success(nil)
+
+	_, args := stub.GetFunctionAndParameters()
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	// ==== Input sanitation ====
+	fmt.Println("- start init ballot")
+
+	if len(args[0]) == 0 {
+		return shim.Error("1st argument must be a non-empty string")
+	}
+	if len(args[1]) == 0 {
+		return shim.Error("2nd argument must be a non-empty string")
+	}
+
+	personFirstName := args[0]
+	personLastName := args[1]
+	hash := sha256.New()
+	hash.Write([]byte(personFirstName + personLastName)) // ballotID is created based on the person's name
+	ballotID := hex.EncodeToString(hash.Sum(nil))
+	voteInit := "VOTE INIT"
+
+	//fmt.Printf("%x", h.Sum(nil)) prints the sha256 string
+
+	// ==== Create ballot object and marshal to JSON ====
+	Ballot := ballot{personFirstName, personLastName, ballotID, voteInit}
+	ballotJSONByte, err := json.Marshal(Ballot)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	//ballotID becomes the key for this tuple
+	err = stub.PutState(string(ballotID), ballotJSONByte)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	return shim.Success([]byte(ballotID))
+
 }
 
 func (t *ballot) Invoke(stub shim.ChaincodeStubInterface) peer.Response {

@@ -17,10 +17,14 @@ const Erick_Zhang_hash = "21927f188e663d70a9d407374a6aa0cba362f86f31089c8c1e15b1
 func Test_CheckInit(t *testing.T) {
 	scc := new(ballot)
 	stub := shim.NewMockStub("voting", scc)
-	res := stub.MockInit("1", [][]byte{})
+	res := stub.MockInit("1", [][]byte{[]byte("Init"), []byte("Init"), []byte("Ballot")})
 	if res.Status != shim.OK {
 		t.Log("bad status received, expected: 200; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
+		t.FailNow()
+	}
+	if res.Payload == nil {
+		t.Log("initBallot failed to create a ballot")
 		t.FailNow()
 	}
 }
