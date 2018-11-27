@@ -191,3 +191,11 @@ peer channel create -o orderer.voting.org:7050 -c $CHANNEL_NAME -f ./channel-art
 ```
 
 Note that this step is included in the `start.sh` script
+
+### Install Chaincode
+
+Now that we have everything set-up we can need to install chaincode at each node and active them. By running the ``` setup_chaincode.sh``` script, we are essentially installing the smart contract at each node and tell everyone on the network that a contract has been estabilished within the network.
+
+```bash
+./setup_chaincode.sh
+```
